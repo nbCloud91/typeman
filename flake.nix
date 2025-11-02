@@ -12,7 +12,30 @@
     pkgsFor = nixpkgs.legacyPackages;
   in {
     packages = forAllSystems (system: {
-      default = pkgsFor.${system}.callPackage ./default.nix {};
+      # Default: light build without GUI (CLI + TUI only)
+      default = pkgsFor.${system}.callPackage ./default.nix {
+        buildFeatures = ["light"];
+      };
+
+      # Light build: CLI + TUI only (same as default)
+      light = pkgsFor.${system}.callPackage ./default.nix {
+        buildFeatures = ["light"];
+      };
+
+      # Full build: CLI + TUI + GUI
+      full = pkgsFor.${system}.callPackage ./default.nix {
+        buildFeatures = ["default"];
+      };
+
+      # CLI only
+      cli-only = pkgsFor.${system}.callPackage ./default.nix {
+        buildFeatures = ["cli"];
+      };
+
+      # TUI only
+      tui-only = pkgsFor.${system}.callPackage ./default.nix {
+        buildFeatures = ["tui"];
+      };
     });
     devShells = forAllSystems (system: {
       default = pkgsFor.${system}.callPackage ./shell.nix {};
