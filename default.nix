@@ -18,6 +18,9 @@ in
     # Configure cargo features
     inherit buildFeatures;
 
+    # Skip tests (they require HOME directory which isn't available in sandbox)
+    doCheck = false;
+
     # Only include GUI dependencies if GUI feature is enabled
     buildInputs = with pkgs; [
       fontconfig
