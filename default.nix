@@ -18,8 +18,11 @@ in
     # Configure cargo features
     inherit buildFeatures;
 
-    # Skip tests (they require HOME directory which isn't available in sandbox)
-    doCheck = false;
+    # Include writableTmpDirAsHomeHook so tests can run (they need HOME directory)
+    nativeBuildInputs = with pkgs; [
+      pkg-config
+      writableTmpDirAsHomeHook
+    ];
 
     # Only include GUI dependencies if GUI feature is enabled
     buildInputs = with pkgs; [
@@ -29,8 +32,6 @@ in
       libx11
       libxkbcommon
     ];
-
-    nativeBuildInputs = with pkgs; [pkg-config];
 
     meta = with pkgs.lib; {
       description = manifest.description;
