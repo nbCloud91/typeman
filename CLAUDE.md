@@ -131,16 +131,17 @@ The leaderboard system includes:
 
 The upstream repository already includes Nix support (flake.nix, default.nix, shell.nix), but this fork extends it with flexible feature configuration. See `git diff upstream/main` for exact changes.
 
-**Changes made (see commit 54886b5):**
+**Changes made:**
 
-1. **`default.nix`** modifications:
+1. **`default.nix`** modifications (our fork):
    - Added `buildFeatures` parameter (defaults to `["light"]`)
    - Added `hasGui` detection logic: checks if "gui" or "default" is in buildFeatures
    - Made GUI dependencies conditional: `pkgs.lib.optionals hasGui [libx11 libxkbcommon]`
    - Added `inherit buildFeatures` to pass features to cargo
    - Added package metadata (description, homepage, license, mainProgram) read from Cargo.toml
+   - Merged upstream's `writableTmpDirAsHomeHook` to enable tests during builds
 
-2. **`flake.nix`** modifications:
+2. **`flake.nix`** modifications (our fork):
    - Changed default output from `{}` to `{ buildFeatures = ["light"]; }`
    - Added four new package outputs: light, full, cli-only, tui-only
    - All outputs call default.nix with different buildFeatures
